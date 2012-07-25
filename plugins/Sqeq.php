@@ -1,9 +1,8 @@
 <?php
-class sqeq
+class Sqeq implements PluginInterface
 {
-	function generate_image($canvas)
+	function generateImage($canvas)
 	{
-		global $captcha_font_path,$captcha_img_path;
 		$a=1;$b=1;$c=100;
 		while (($b^2)-(4*$a*$c)<0)
 		{
@@ -52,13 +51,13 @@ class sqeq
 		for ($i=0;$i<strlen($rand);$i++)
 		{
 			$color = imagecolorallocate($canvas, rand(100,255),rand(100,255) , rand(100,255));
-			imagefttext($canvas, 12, rand (-5,5), 5+12*$i, 50, $color, $captcha_font_path."/LiberationMono-Bold.ttf", $rand[$i]);
+			imagefttext($canvas, 12, rand (-5,5), 5+12*$i, 50, $color, $this->ucaptcha->getCaptchaFontPath()."/LiberationMono-Bold.ttf", $rand[$i]);
 		}
-		imagefttext($canvas, 10, rand (-5,5), 20, 75, $color, $captcha_font_path."/LiberationMono-Bold.ttf", $hit);
-		$nme=$this->ucaptcha->get_filename();
-		//imagepng($canvas,$captcha_img_path."/".$nme.".png");
-		imagepng($canvas);
-		$captcha[0]=$nme;
+		imagefttext($canvas, 10, rand (-5,5), 20, 75, $color, $this->ucaptcha->getCaptchaFontPath()."/LiberationMono-Bold.ttf", $hit);
+		$name = $this->ucaptcha->getFilename();
+		$path=$this->ucaptcha->getAbsoluteCaptchaImgPath().'/'.$name;
+		imagepng($canvas,$path);
+		$captcha[0]=$name;
 		$captcha[1]=$ans;
 		return $captcha;
 		}

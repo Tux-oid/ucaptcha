@@ -1,10 +1,8 @@
 <?php
-class ximia_atomic_number
+class AtomicNumber implements PluginInterface
 {
-	function generate_image($canvas)
+	function generateImage($canvas)
 	{
-		global $captcha_font_path,$captcha_img_path;
-		
 		$X[1]="H";
 		$X[2]="He";
 		$X[3]="Li";
@@ -133,14 +131,14 @@ class ximia_atomic_number
 		$X[126]="Ubh";
 
 		$ans=rand(1,126);
-		$hit="Атомное число";
+		$hit="Z = ?";
 		$color = imagecolorallocate($canvas, rand(100,255), rand(100,255), rand(100,255));
-		imagefttext($canvas, 32, rand (-10,10), 60, 50, $color, $captcha_font_path."/LiberationMono-Bold.ttf", $X[$ans]);
-		imagefttext($canvas, 15, rand (-5,5), 25, 75, $color, $captcha_font_path."/LiberationMono-Bold.ttf", $hit);
-		$nme=$this->ucaptcha->get_filename();
-		imagepng($canvas);
-                //imagepng($canvas,$captcha_img_path."/".$nme.".png");
-		$captcha[0]=$nme;
+		imagefttext($canvas, 32, rand (-10,10), 60, 50, $color, $this->ucaptcha->getCaptchaFontPath()."/LiberationMono-Bold.ttf", $X[$ans]);
+		imagefttext($canvas, 15, rand (-5,5), 25, 75, $color, $this->ucaptcha->getCaptchaFontPath()."/LiberationMono-Bold.ttf", $hit);
+		$name = $this->ucaptcha->getFilename();
+		$path=$this->ucaptcha->getAbsoluteCaptchaImgPath().'/'.$name;
+		imagepng($canvas,$path);
+		$captcha[0]=$name;
 		$captcha[1]=$ans;
 		return $captcha;
 	}

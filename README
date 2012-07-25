@@ -1,0 +1,42 @@
+Installation:
+
+exec in console this command
+git clone git://gitorious.org/rulinux-engine/ucaptcha.git UCaptcha
+
+and move UCaptcha to your project
+
+Than add to yuor code
+require "path/to/Ucaptcha/UCaptcha.php";
+where path/to/Ucaptcha is path to UCaptcha directory.
+
+Installation in Symfony 2:
+
+Add to deps file
+
+[ucaptcha]
+     git=git://gitorious.org/rulinux-engine/ucaptcha.git
+     target=ucaptcha/lib/UCaptcha
+
+and exec command
+
+php bin/vendors install
+
+Then add to autoload.php
+
+$loader->registerNamespaces(array(
+        //...
+        'UCaptcha' => __DIR__.'/../vendor/ucaptcha/lib',
+        //...
+));
+
+Thats all. UCaptcha now installed to your project
+
+Using:
+
+$captchaLevel = 1;//or other level
+$uCaptcha = new UCaptcha\UCaptcha;
+$uCaptcha->draw($captchaLevel);//returns path to image
+
+after sending form your data
+
+$uCaptcha->check($_POST['keystring']);
