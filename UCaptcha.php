@@ -1,5 +1,4 @@
 <?php
-namespace UCaptcha;
 
 require_once "PluginInterface.php";
 require_once "plugs.dcfg.php";
@@ -22,30 +21,32 @@ class UCaptcha
 		$this->captchaTplPath = $captchaTplPath;
 	}
 
-	public function draw($level)
-	{
-		$captcha = $this->generateImage($level);
-		$_SESSION['captchaKeyString'] = $captcha[1];
-		$image = $this->getCaptchaImgPath().'/'.$captcha[0];
-		$_SESSION['captchaImage'] = $captcha[1];//FIXME:save information about image, keystring and date to file
-		return $image;
-	}
-
-	public function generateImage($level = 0)
+	public function draw($level = 0)
 	{
 		if(count($this->uCaptchaPlugins[$level]) == 0)
 		{
-			$captcha = NULL;
+			$image = NULL;
 		}
 		else
 		{
-			$pl = rand(0, count($this->uCaptchaPlugins[$level]) - 1);
-			require_once $this->getAbsoluteCaptchaPlugunPath()."/" . $this->uCaptchaPlugins[$level][$pl] . ".php";
-			$generator = new $this->uCaptchaPlugins[$level][$pl];
-			$generator->ucaptcha = $this;
-			$canvas = $this->prepareCanvas();
-			$captcha = $generator->generateImage($canvas);
+			if(!in_array($level, $this->getPluginsLevels()))
+				throw new \Exception('Level is invalid');
+			$captcha = $this->generateImage($level);
+			$_SESSION['captchaKeyString'] = $captcha[1];
+			$image = $this->getCaptchaImgPath().'/'.$captcha[0];
+			$_SESSION['captchaImage'] = $captcha[1];//FIXME:save information about image, keystring and date to file
 		}
+		return $image;
+	}
+
+	protected function generateImage($level)
+	{
+		$pl = rand(0, count($this->uCaptchaPlugins[$level]) - 1);
+		require_once $this->getAbsoluteCaptchaPlugunPath()."/" . $this->uCaptchaPlugins[$level][$pl] . ".php";
+		$generator = new $this->uCaptchaPlugins[$level][$pl];
+		$generator->ucaptcha = $this;
+		$canvas = $this->prepareCanvas();
+		$captcha = $generator->generateImage($canvas);
 		return $captcha;
 	}
 
@@ -67,7 +68,7 @@ class UCaptcha
 					return false;
 				}
 		}
-		unlink($this->getAbsoluteCaptchaImgPath().'/'.$_SESSION['captchaImage']);//FIXME:remove files with creation date more than 5 minutes ago
+		unlink($this->getAbsoluteCaptchaImgPath().'/'.$_SESSION['captchaImage']);//FIXME:remove files with creation date more than 5 hours ago
 		return ($val == $answer);
 	}
 
@@ -100,9 +101,19 @@ class UCaptcha
 		return md5(microtime() + rand(0, 255)).'.png';
 	}
 
-	public function getPluginsLevelCount()
+	public function getPluginsLevelsCount()
 	{
 		return count($this->uCaptchaPlugins);
+	}
+
+	public function getPluginsLevels()
+	{
+		$ret = array();
+		foreach($this->uCaptchaPlugins as $key => $value)
+		{
+			$ret[] = $key;
+		}
+		return $ret;
 	}
 
 	public function setCaptchaFontPath($captchaFontPath)
