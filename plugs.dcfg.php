@@ -12,4 +12,4 @@ $uCaptchaPlugins[4][]="Determinant3";
 $uCaptchaPlugins[4][]="NameOfReaction";
 $uCaptchaPlugins[4][]="VivaLaResistance";
 $uCaptchaPlugins[4][]="AtomicNumber";
-?>
+

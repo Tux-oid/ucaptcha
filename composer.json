@@ -1,0 +1,21 @@
+{
+	"name":         "rl/ucaptcha",
+	"description":  "Rulinux captcha library",
+	"type":         "library",
+	"keywords":     ["ucaptcha", "captcha", "robots"],
+	"license":      "BSDL",
+	"homepage":     "https://gitorious.org/rulinux-engine/ucaptcha",
+	"authors":      [
+		{
+			"name":     "Peter Vasilevsky a.k.a. Tux-oid.",
+			"homepage": "http://rulinux.net"
+		}
+	],
+	"autoload":     {
+		"psr-0": { "RL\\Ucaptcha\\": "" }
+	},
+	"require":{
+		"php":">=5.3.3"
+	},
+	"target-dir":"RL/Ucaptcha"
+}
