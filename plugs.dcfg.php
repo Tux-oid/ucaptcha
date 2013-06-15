@@ -1,5 +1,6 @@
 <?php
 // [level][id]
+global $uCaptchaPlugins;
 $uCaptchaPlugins[0][]="Simple";
 $uCaptchaPlugins[1][]="LinearAlgebraicEquations";
 $uCaptchaPlugins[1][]="MoreLess";
