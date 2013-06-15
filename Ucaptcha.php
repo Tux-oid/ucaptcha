@@ -8,6 +8,7 @@
 namespace RL\Ucaptcha;
 
 require_once "plugs.dcfg.php";
+require_once "UcaptchaInterface.php";
 
 /**
  * RL\Ucaptcha\Ucaptcha
@@ -15,7 +16,7 @@ require_once "plugs.dcfg.php";
  * @author AiFilTr0
  * @author Peter Vasilevsky <tuxoiduser@gmail.com> a.k.a. Tux-oid
  */
-class Ucaptcha
+class Ucaptcha implements UcaptchaInterface
 {
     /**
      * @var string
