@@ -90,7 +90,7 @@ class Ucaptcha implements UcaptchaInterface
     protected function generateImage($level)
     {
         $pl = rand(0, count($this->uCaptchaPlugins[$level]) - 1);
-        $plugin = '\\UCaptcha\\Plugins\\' . $this->uCaptchaPlugins[$level][$pl];
+        $plugin = '\\RL\\UCaptcha\\Plugins\\' . $this->uCaptchaPlugins[$level][$pl];
         /** @var $generator \RL\Ucaptcha\AbstractPlugin */
         $generator = new $plugin($this);
         $canvas = $this->prepareCanvas();

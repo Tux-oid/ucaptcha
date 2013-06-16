@@ -39,10 +39,4 @@ abstract class AbstractPlugin
      */
     abstract public function generateImage($canvas);
 
-    /**
-     * Return level of registered plugin
-     *
-     * @return int
-     */
-    abstract public function getPluginLevel();
 }
